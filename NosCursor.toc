@@ -5,4 +5,11 @@
 ## Notes: Simple Cursor Tracker
 ## SavedVariables: NosCursorDB
 
+# core
+Init.lua
+
+# config
+Config.lua
+
+# display
 NosCursor.lua
