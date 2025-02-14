@@ -1,14 +1,31 @@
-NosCursor = CreateFrame("Frame", "NosCursorFrame", UIParent)
+local config = NosCursor.config
+local hover = NosCursor.hover
+local rain = NosCursor.rain
+local textures = NosCursor.textures
 
-NosCursor:SetWidth(42)
-NosCursor:SetHeight(42)
-NosCursor:SetFrameStrata("TOOLTIP")
+function NosCursor.UpdateDisplay()
+    hover:SetWidth(config.width)
+    hover:SetHeight(config.height)
 
-local Texture = NosCursor:CreateTexture(nil, "OVERLAY")
-Texture:SetAllPoints(NosCursor)
-Texture:SetTexture("Interface\\AddOns\\NosCursor\\Media\\Circle")
+    if config.rgb == 1 then
+        rain(hover.texture)
+    else
+        NosCursor.updateFrame:Hide()
+        NosCursor.updateFrame:SetScript("OnUpdate", nil)
+        hover.texture:SetVertexColor(1, 1, 1)
+    end
+end
 
-NosCursor:SetScript("OnUpdate", function(self, elapsed)
+hover:SetWidth(config.width)
+hover:SetHeight(config.height)
+hover:SetFrameStrata("TOOLTIP")
+
+-- Attach a texture to that frame
+hover.texture = hover:CreateTexture(nil, "OVERLAY")
+hover.texture:SetAllPoints(hover)
+hover.texture:SetTexture(textures[1])
+
+hover:SetScript("OnUpdate", function(self, elapsed)
     local x, y = GetCursorPosition()
     local uiScale = UIParent:GetEffectiveScale()
     x = x / uiScale
@@ -17,4 +34,9 @@ NosCursor:SetScript("OnUpdate", function(self, elapsed)
     this:ClearAllPoints()
     --this:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
     this:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x, y)
+end)
+
+hover:RegisterEvent("PLAYER_ENTERING_WORLD")
+hover:SetScript("OnEvent", function()
+    NosCursor.UpdateDisplay()
 end)
