@@ -4,7 +4,6 @@ NosCursor:SetWidth(42)
 NosCursor:SetHeight(42)
 NosCursor:SetFrameStrata("TOOLTIP")
 
--- Attach a texture to that frame
 local Texture = NosCursor:CreateTexture(nil, "OVERLAY")
 Texture:SetAllPoints(NosCursor)
 Texture:SetTexture("Interface\\AddOns\\NosCursor\\Media\\Circle")
