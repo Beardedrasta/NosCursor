@@ -1,0 +1,8 @@
+## Interface: 11200
+## Title: Nos: |cff1a9fc0Cursor|r
+## Author: Rasta
+## Version: 1.0
+## Notes: Simple Cursor Tracker
+## SavedVariables: NosCursorDB
+
+NosCursor.lua
