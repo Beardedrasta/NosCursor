@@ -2,14 +2,20 @@
 ## Title: Nos: |cff1a9fc0Cursor|r
 ## Author: Rasta
 ## Version: 1.0
-## Notes: Simple Cursor Tracker
-## SavedVariables: NosCursorDB
+## Notes: Vanilla most advanced mouse tracker
+## SavedVariables: NosCursorDB, NocCursorCache
+
+# locales
+Locales\enUS.lua
 
 # core
 Init.lua
 
-# config
-Config.lua
+# Api
+Api\Api.lua
 
 # display
 NosCursor.lua
+
+# config
+Config.lua

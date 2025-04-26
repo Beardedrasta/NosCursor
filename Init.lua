@@ -1,52 +1,93 @@
-NosCursor = {}
+NosCursor = CreateFrame("Frame", nil, UIParent)
+NosCursor:RegisterEvent("ADDON_LOADED")
+
+NosCursor.hover = CreateFrame("Frame", "NosCursorFrame", UIParent)
+NosCursor.settings = CreateFrame("Frame", "NosCursorConfig", UIParent)
+NosCursor.modules = {}
+NosCursor.api = {}
+NosCursor.env = {}
+NosCursor.config = {
+    --Mouse Tracker
+    rotate = 0,
+    rgb = 0,
+    customcolor = 1,
+    mousecolor = { 0, 0.6, 1, 1 },
+    hovertexture = 9,
+    width = 20,
+    height = 20,
+    --Trail
+    rainbowtrail = 0,
+    customcolortrail = 1,
+    customtrailcolor = { 0, 0.6, 1, 1 },
+    maxtrails = 50,
+    maxtrailsize = 30,
+    mintrailsize = 1,
+    dottexture = 8,
+}
+NosCursor.textures = {
+    "Interface\\AddOns\\NosCursor\\Media\\Circle",
+    "Interface\\AddOns\\NosCursor\\Media\\CircleFull",
+    "Interface\\AddOns\\NosCursor\\Media\\Star 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Swirl",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 2",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 3",
+    "Interface\\AddOns\\NosCursor\\Media\\Glow 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Glow Reversed",
+    "Interface\\AddOns\\NosCursor\\Media\\Glow",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring 2",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring 3",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring 4",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring Soft 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring Soft 2",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring Soft 3",
+    "Interface\\AddOns\\NosCursor\\Media\\Ring Soft 4",
+    "Interface\\AddOns\\NosCursor\\Media\\Sphere Edge 2",
+}
+
+NosCursor.trailtextures = {
+    "Interface\\AddOns\\NosCursor\\Media\\CircleCluster",
+    "Interface\\AddOns\\NosCursor\\Media\\Star 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Swirl",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 2",
+    "Interface\\AddOns\\NosCursor\\Media\\Cross 3",
+    "Interface\\AddOns\\NosCursor\\Media\\Glow 1",
+    "Interface\\AddOns\\NosCursor\\Media\\Glow",
+}
+
+NosCursor.L = NosCursor_Locale[GetLocale()] or NosCursor_Locale["enUS"]
+
+
+NosCursor:SetScript("OnEvent", function()
+    if event == "ADDON_LOADED" and arg1 == "NosCursor" then
+        if not NosCursorDB then NosCursorDB = {} end
+        if NosCursorDB then
+            for var, data in pairs(NosCursorDB) do
+                NosCursor.config[var] = data
+            end
+        end
+
+        NosCursorDB = NosCursor.config
+        this:UnregisterEvent("ADDON_LOADED")
+        --NosCursor:Initialize()
+    end
+end)
+
 NosCursor.updateFrame = CreateFrame("Frame", nil, UIParent)
 
-local function rain(texture)
-    local t = 0;
-    local i = 0;
-    local p = 0;
-    local c = 128;
-    local w = 127;
-    local m = 180;
-    local r, g, b;
-    local hz = (math.pi * 2) / m
+function NosCursor:GetEnvironment()
+    for name, func in pairs(NosCursor.api) do
+        self.env[name] = func
+    end
 
-    NosCursor.updateFrame:Hide()
+    local _G = getfenv(0)
+    self.env._G = _G
+    self.env.C = self.config
+    self.env.L = self.L
+    self.env.NosCursor = self
 
-    NosCursor.updateFrame:SetScript("OnUpdate", function(_, elapsed)
-        t = t + arg1
-        if t > 0.1 then
-            i = i + 1
-            r = (math.sin((hz * i) + 0 + p) * w + c) / 255
-            g = (math.sin((hz * i) + 2 + p) * w + c) / 255
-            b = (math.sin((hz * i) + 4 + p) * w + c) / 255
-            if i > m then
-                i = i - m
-            end
-            texture:SetVertexColor(r, g, b)
-            t = 0
-        end
-    end)
-
-    NosCursor.updateFrame:Show()
+    setmetatable(self.env, { __index = _G })
+    return self.env
 end
-
-local config = {
-    width = 42,
-    height = 42,
-    rgb = 1,
-}
-
-local textures = {
-    "Interface\\AddOns\\NosCursor\\Media\\Circle",
-}
-
-local hover = CreateFrame("Frame", "NosCursorFrame", UIParent)
-local settings = CreateFrame("Frame")
-
-
-NosCursor.config = config
-NosCursor.settings = settings
-NosCursor.textures = textures
-NosCursor.hover = hover
-NosCursor.rain = rain
