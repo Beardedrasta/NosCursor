@@ -8,7 +8,7 @@ The objective of this addon is to give players the ability to keep track of ther
 ![NosCursor](screenshot2.jpg)
 
 ## Installation
-1. Download **[Latest Version](https://github.com/Beardedrasta/NosCursor/archive/main.zip)
+1. Download **[Latest Version](https://github.com/Beardedrasta/NosCursor/archive/main.zip)**
 2. Unpack the Zip file into your wow addons folder
 3. Rename the folder "NosCursor-main" to "NosCursor"
 4. Restart WoW
@@ -20,7 +20,7 @@ You can use the following command to access the config settings:
 * **/nc config**
 
 Config options and there uses:
-# Mouse Tracker
+### Mouse Tracker
 ```
 Rotate                  [Makes the tracker texture rotate in a circle]
 RGB                     [Colors the tracker texture with RGB animation]
@@ -31,7 +31,7 @@ Height                  [Sets the height of the tracker]
 Texture                 [Sets the tracker texture]
 ```
 
-# Trail
+### Trail
 ```
 Rainbow                 [Colors the trail with rainbow animation]
 Custom Color            [Colors the trail the set custom color]
