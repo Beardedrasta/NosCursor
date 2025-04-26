@@ -2,7 +2,7 @@ NosCursor = CreateFrame("Frame", nil, UIParent)
 NosCursor:RegisterEvent("ADDON_LOADED")
 
 NosCursor.hover = CreateFrame("Frame", "NosCursorFrame", UIParent)
-NosCursor.settings = CreateFrame("Frame", "NosCursorConfig", UIParent)
+--NosCursor.settings = CreateFrame("Frame", "NosCursorConfig", UIParent)
 NosCursor.modules = {}
 NosCursor.api = {}
 NosCursor.env = {}

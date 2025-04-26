@@ -1,4 +1,14 @@
 local config = NosCursor.config
+-- settings:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- settings:SetScript("OnEvent", function()
+--     if NosCursorDB then
+--         for var, data in pairs(NosCursorDB) do
+--             config[var] = data
+--         end
+--     end
+
+--     NosCursorDB = config
+-- end)
 
 SLASH_NOSCURSOR1, SLASH_NOSCURSOR2 = "/noscursor", "/nc"
 SlashCmdList["NOSCURSOR"] = function(msg, editbox)
@@ -26,8 +36,9 @@ end
 setfenv(1, NosCursor:GetEnvironment())
 
 local max_height = 800
-local settings = NosCursor.settings
+local settings = CreateFrame("Frame", "NosCursorConfig", UIParent) --NosCursor.settings
 settings:Hide()
+NosCursor.settings = settings
 
 table.insert(UISpecialFrames, "NosCursorConfig")
 settings:SetScript("OnHide", function()
@@ -83,11 +94,11 @@ settings.close:SetScript("OnClick", function()
 end)
 
 local function RecalculateContainerHeight()
-    local totalHeight = 20
+    local totalHeight = 20 -- start with some top spacing
 
     for _, frame in pairs(settings.category) do
         if frame:IsShown() then
-            totalHeight = totalHeight + frame:GetHeight() + 22
+            totalHeight = totalHeight + frame:GetHeight() + 22 -- 22 = spacing between categories
         end
     end
 
@@ -101,9 +112,19 @@ local function RecalculateContainerHeight()
 end
 
 settings.Load = function(self)
-    DEFAULT_CHAT_FRAME:AddMessage("Settings Loaded")
+    if settings.category then
+        for _, frame in pairs(settings.category) do
+            if frame.button then frame.button:Hide() frame.button:SetParent(nil) end
+            if frame.title then frame.title:Hide() frame.title:SetParent(nil) end
+            frame:Hide()
+            frame:SetParent(nil)
+        end
+    end
+    settings.category = {}
+    --DEFAULT_CHAT_FRAME:AddMessage("Settings Loaded")
     max_height = math.min(UIParent:GetHeight() / UIParent:GetScale() * 0.75, 400)
     settings:SetHeight(max_height)
+    --settings.container:SetHeight(max_height - 20)
 
     settings.container:SetWidth(settings:GetWidth() - 20)
     settings.container:SetHeight(max_height - 60)
@@ -341,7 +362,7 @@ settings.Load = function(self)
                 local function OpenColorPicker()
                     local color = config[key]
                     if type(color) ~= "table" then
-                        color = { 1, 1, 1 }
+                        color = { 1, 1, 1 } -- default white
                     end
                     local r, g, b = unpack(color)
 
@@ -354,11 +375,11 @@ settings.Load = function(self)
                     end
 
                     ColorPickerFrame.cancelFunc = function()
-                        
+                        -- If you want to do something when canceled (optional)
                     end
 
                     ColorPickerFrame:SetColorRGB(r, g, b)
-                    ColorPickerFrame:Hide()
+                    ColorPickerFrame:Hide() -- You must hide before showing again
                     ColorPickerFrame:Show()
                 end
 
@@ -406,7 +427,7 @@ settings.Load = function(self)
 
                 input.preview.texture = input.preview:CreateTexture(nil, "ARTWORK")
                 input.preview.texture:SetAllPoints(input.preview)
-                input.preview.texture:SetTexture("") 
+                input.preview.texture:SetTexture("") -- empty at start
                 input.preview:Hide()
 
                 input.caption = input:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -542,14 +563,14 @@ function DisableButton(button)
     button:Disable()
     button:GetNormalTexture():SetDesaturated(true)
     button:GetPushedTexture():SetDesaturated(true)
-    button:GetHighlightTexture():SetAlpha(0)
+    button:GetHighlightTexture():SetAlpha(0) -- Hide highlight glow
 end
 
 function EnableButton(button)
     button:Enable()
     button:GetNormalTexture():SetDesaturated(false)
     button:GetPushedTexture():SetDesaturated(false)
-    button:GetHighlightTexture():SetAlpha(1)
+    button:GetHighlightTexture():SetAlpha(1) -- Restore highlight glow
 end
 
 settings:SetScript("OnShow", function()
