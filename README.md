@@ -20,7 +20,7 @@ You can use the following command to access the config settings:
 * **/nc config**
 
 Config options and there uses:
-# Mouse Tracker
+### Mouse Tracker
 ```
 Rotate                  [Makes the tracker texture rotate in a circle]
 RGB                     [Colors the tracker texture with RGB animation]
@@ -31,7 +31,7 @@ Height                  [Sets the height of the tracker]
 Texture                 [Sets the tracker texture]
 ```
 
-# Trail
+### Trail
 ```
 Rainbow                 [Colors the trail with rainbow animation]
 Custom Color            [Colors the trail the set custom color]
