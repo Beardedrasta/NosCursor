@@ -41,3 +41,5 @@ Max Size                [The max size of the cursor end of the trail]
 Min Size                [The min size of the tail end of the trail]
 Texture                 [Sets the trail texture]
 ```
+
+![NosCursor](NetID.png)
