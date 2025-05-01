@@ -275,10 +275,10 @@ settings.Load = function(self)
                 btn.label:SetPoint("TOPLEFT", frame, "TOPLEFT", 17, -(i * entrysize) + 4)
 
                 if config["rgb"] == 1 and frame.buttonsByKey["customcolor"] then
-                    frame.buttonsByKey["customcolor"]:Disable()
+                    --frame.buttonsByKey["customcolor"]:Disable()
                 end
                 if config["customcolor"] == 1 and frame.buttonsByKey["rgb"] then
-                    frame.buttonsByKey["rgb"]:Disable()
+                    --frame.buttonsByKey["rgb"]:Disable()
                 end
 
 
