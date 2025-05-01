@@ -307,26 +307,6 @@ settings.Load = function(self)
                     config[key] = checked and 1 or 0
                     NosCursorDB[key] = config[key]
 
-                    if key == "rgb" then
-                        local other = frame.buttonsByKey["customcolor"]
-                        if other then
-                            if checked then
-                                DisableButton(other)
-                            else
-                                EnableButton(other)
-                            end
-                        end
-                    elseif key == "customcolor" then
-                        local other = frame.buttonsByKey["rgb"]
-                        if other then
-                            if checked then
-                                DisableButton(other)
-                            else
-                                EnableButton(other)
-                            end
-                        end
-                    end
-
                     UpdateDisplay()
                 end)
 
